@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cricket Winner Prediction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input,
+        select,
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🏏 Cricket Winner Prediction</h1>
+
+    <form id="predictionForm">
+
+        <input type="text" id="team1" placeholder="Team 1" required>
+
+        <input type="text" id="team2" placeholder="Team 2" required>
+
+        <input type="text" id="venue" placeholder="Venue" required>
+
+        <input type="text" id="toss_winner" placeholder="Toss Winner" required>
+
+        <select id="toss_decision">
+            <option value="bat">Bat</option>
+            <option value="field">Field</option>
+        </select>
+
+        <button type="submit">
+            Predict Winner
+        </button>
+
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+
+        document
+            .getElementById("predictionForm")
+            .addEventListener("submit", async function (e) {
+
+                e.preventDefault();
+
+                const data = {
+
+                    team1:
+                        document.getElementById("team1").value,
+
+                    team2:
+                        document.getElementById("team2").value,
+
+                    venue:
+                        document.getElementById("venue").value,
+
+                    toss_winner:
+                        document.getElementById("toss_winner").value,
+
+                    toss_decision:
+                        document.getElementById("toss_decision").value
+                };
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/predict",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(data)
+                    }
+                );
+
+                const result = await response.json();
+
+                document.getElementById("result").innerHTML = `
+        Winner: ${result.winner}<br>
+        Confidence: ${(result.confidence * 100).toFixed(2)}%
+    `;
+            });
+
+    </script>
+
+</body>
+
+</html>

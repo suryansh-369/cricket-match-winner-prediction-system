@@ -1,0 +1,25 @@
+# Raw data
+data/raw/
+
+# MLflow
+mlruns/
+mlflow.db
+
+# CatBoost
+catboost_info/
+notebooks/catboost_info/
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Misc
+records
+.DS_Store
